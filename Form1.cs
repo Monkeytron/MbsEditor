@@ -25,17 +25,6 @@ namespace MbsEdit
         public Form1()
         {
             InitializeComponent();
-
-
-            propertyGrid1.SelectedObject = new AttributeInterface(new StencylAttribute(0, "map", new Dictionary<string, dynamic>
-            {
-                { "name","jeff"},
-                { "9 + 10", 21},
-                {"Bool", true},
-                {"MoreBool",false },
-                {"list A", new dynamic[] { 3, "lol", 0.1f, true } }
-                }
-            ));
         }
 
         private void button1_Click(object sender, EventArgs e)
