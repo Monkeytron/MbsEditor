@@ -162,7 +162,7 @@ namespace MbsEdit
             this.Controls.Add(this.tableLayoutPanel1);
             this.DoubleBuffered = true;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Mbs Editor";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
