@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JonSkeet.MiscUtil" Version="0.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="haxe-mbs_translate">
+      <HintPath>..\haxe-mbs_translate\haxe-mbs_translate\bin\Release\net5.0\haxe-mbs_translate.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
