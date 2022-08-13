@@ -14,6 +14,8 @@ Building on the code in [mbs-io](https://github.com/Monkeytron/mbs-io) this prog
 
 To install: download the code, go to bin/publish and double click on setup.exe.
 Once installed the program should auto update every time you open it... If I programmed it right.
+Only windows compatible, unless you can run winforms on Linux...
+
 
 ### Possible future improvements
 
