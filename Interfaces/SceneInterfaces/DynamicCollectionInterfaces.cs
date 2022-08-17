@@ -200,7 +200,7 @@ namespace MbsEdit.Interfaces.SceneInterfaces
         public override string ToString()
         {
             if (valueType is "Null") return "NULL";
-            else return GetValue().ToString();
+            else return Convert.ToString(GetValue());
         }
 
         public dynamic GetValue()
@@ -262,12 +262,15 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
     public class DynamicList : CollectionBase, ICustomTypeDescriptor
     {
+        private int prevCount;
         public DynamicList(ICollection<DynamicInterface> values)
         {
             foreach (DynamicInterface d in values)
             {
                 Add(d);
             }
+            prevCount = Count;
+            GlobalData.refreshEvent += OnRefreshEvent;
         }
         public DynamicList(IEnumerable<DynamicInterface> values)
         {
@@ -275,11 +278,23 @@ namespace MbsEdit.Interfaces.SceneInterfaces
             {
                 Add(d);
             }
+            prevCount = Count;
+            GlobalData.refreshEvent += OnRefreshEvent;
+        }
+
+        private void OnRefreshEvent(object? sender, EventArgs e)
+        {
+            if (prevCount != Count)
+            {
+                GlobalData.propertyRefreshFlag = true;
+                prevCount = Count;
+            }
         }
 
         public DynamicList()
         {
-
+            prevCount = Count;
+            GlobalData.refreshEvent += OnRefreshEvent;
         }
 
         public void Add(DynamicInterface di)
@@ -294,7 +309,15 @@ namespace MbsEdit.Interfaces.SceneInterfaces
         {
             get
             {
-                return (DynamicInterface)this.List[index];
+                try
+                {
+                    return (DynamicInterface)this.List[index];
+                }
+                catch
+                {
+                    GlobalData.propertyRefreshFlag = true;
+                    return new DynamicInterface();
+                }
             }
         }
 
@@ -429,16 +452,30 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
     public class DynamicMap : CollectionBase, ICustomTypeDescriptor
     {
+
+        private int prevCount;
         public DynamicMap(Dictionary<string,dynamic> values)
         {
             foreach (string s in values.Keys)
             {
                 Add(new DynamicMapElement(s, new DynamicInterface(values[s])));
             }
+            prevCount = Count;
+            GlobalData.refreshEvent += OnRefreshEvent;
         }
         public DynamicMap()
         {
+            prevCount = Count;
+            GlobalData.refreshEvent += OnRefreshEvent;
+        }
 
+        private void OnRefreshEvent(object? sender, EventArgs e)
+        {
+            if (prevCount != Count)
+            {
+                GlobalData.propertyRefreshFlag = true;
+                prevCount = Count;
+            }
         }
 
         public void Add(DynamicMapElement dme)
@@ -453,7 +490,15 @@ namespace MbsEdit.Interfaces.SceneInterfaces
         {
             get
             {
-                return (DynamicMapElement)this.List[index];
+                try
+                {
+                    return (DynamicMapElement)this.List[index];
+                }
+                catch
+                {
+                    GlobalData.propertyRefreshFlag = true;
+                    return new DynamicMapElement();
+                }
             }
         }
 

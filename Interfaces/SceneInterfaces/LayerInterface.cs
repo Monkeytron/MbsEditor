@@ -77,45 +77,52 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
         public LayerInterface(dynamic d)
         {
-            if(d is ColorBackground)
+            try
             {
-                layerType = LayerTypeConverter.layerTypes[(int)LayerTypes.ColorBackground];
-                color = d.color;
-            }
-            else if(d is ImageBackground)
-            {
-                layerType = LayerTypeConverter.layerTypes[(int)LayerTypes.ImageBackground];
-                id = d.id;
-                name = d.name;
-                order = d.order;
-                opacity = d.opacity;
-                blendmode = d.blendmode;
-                scrollFactorX = d.scrollFactorX;
-                scrollFactorY = d.scrollFactorY;
-                visible = d.visible;
-                locked = d.locked;
+                if (d is ColorBackground)
+                {
+                    layerType = LayerTypeConverter.layerTypes[(int)LayerTypes.ColorBackground];
+                    color = d.color;
+                }
+                else if (d is ImageBackground)
+                {
+                    layerType = LayerTypeConverter.layerTypes[(int)LayerTypes.ImageBackground];
+                    id = d.id;
+                    name = d.name;
+                    order = d.order;
+                    opacity = d.opacity;
+                    blendmode = d.blendmode;
+                    scrollFactorX = d.scrollFactorX;
+                    scrollFactorY = d.scrollFactorY;
+                    visible = d.visible;
+                    locked = d.locked;
 
-                resourceID = d.resourceID;
-                customScroll = d.customScroll;
-            }
-            else if(d is InteractiveLayer)
-            {
-                layerType = LayerTypeConverter.layerTypes[(int)LayerTypes.InteractiveLayer];
-                id = d.id;
-                name = d.name;
-                order = d.order;
-                opacity = d.opacity;
-                blendmode = d.blendmode;
-                scrollFactorX = d.scrollFactorX;
-                scrollFactorY = d.scrollFactorY;
-                visible = d.visible;
-                locked = d.locked;
+                    resourceID = d.resourceID;
+                    customScroll = d.customScroll;
+                }
+                else if (d is InteractiveLayer)
+                {
+                    layerType = LayerTypeConverter.layerTypes[(int)LayerTypes.InteractiveLayer];
+                    id = d.id;
+                    name = d.name;
+                    order = d.order;
+                    opacity = d.opacity;
+                    blendmode = d.blendmode;
+                    scrollFactorX = d.scrollFactorX;
+                    scrollFactorY = d.scrollFactorY;
+                    visible = d.visible;
+                    locked = d.locked;
 
-                color = d.color;
+                    color = d.color;
+                }
+                else
+                {
+                    layerType = LayerTypeConverter.layerTypes[(int)LayerTypes.NotChosen];
+                }
             }
-            else
+            catch
             {
-                layerType = LayerTypeConverter.layerTypes[(int)LayerTypes.NotChosen];
+                
             }
         }
 

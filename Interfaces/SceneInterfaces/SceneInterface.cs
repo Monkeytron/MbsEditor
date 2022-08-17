@@ -63,11 +63,11 @@ namespace MbsEdit.Interfaces.SceneInterfaces
         [DisplayName("Atlas members"), Category("Lists")]
         public int[] atlasMembers { get; set; }
 
-        [TypeConverter(typeof(NiceObjectConverter)), DisplayName("Layers"), Category("Lists"), RefreshProperties(RefreshProperties.All)]
-        public LayerCollection layerCollection { get; set; }
+        [ DisplayName("Layers"), Category("Lists")]
+        public LayerInterface[] layers { get; set; }
 
-        [TypeConverter(typeof(NiceObjectConverter)), DisplayName("Terrain"), Category("Lists"), RefreshProperties(RefreshProperties.All)]
-        public Terrain terrain { get; set; }
+        [DisplayName("Terrain"), Category("Lists")]
+        public WireframeInterface[] terrain { get; set; }
 
         public SceneInterface(Scene s)
         {
@@ -98,19 +98,17 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
             atlasMembers = s.atlasMembers;
 
-            layerCollection = new LayerCollection(s.layers.Select(i => new LayerInterface(i)));
+            layers = s.layers.Select(i => new LayerInterface(i)).ToArray();
 
-            terrain = new Terrain(s.terrain.Select(i => new WireframeInterface(i)));
+            terrain = s.terrain.Select(i => new WireframeInterface(i)).ToArray();
         }
 
 
         public Scene GetScene()
         {
-            Wireframe[] newTerrain = new Wireframe[terrain.Count]; for (int i = 0; i < terrain.Count; i++) newTerrain[i] = terrain[i].GetWireframe();
-            dynamic[] newLayers = new dynamic[layerCollection.Count]; for (int i = 0; i < layerCollection.Count; i++) newLayers[i] = layerCollection[i].GetLayer();
 
             return new Scene(retainAtlases, depth, description, eventSnippetID, extendedWidth, extendedHeight, extendedX, extendedY, format, gravity.x, gravity.y, height, id,
-                name, revision, savecount, tileDepth, tileHeight, tileWidth, type, width, actors.Select(i => i.GetActorInstance()).ToArray(), atlasMembers, newLayers, new dynamic[0], new dynamic[0], snippets.Select(i => i.GetBehaviorInstance()).ToArray(),newTerrain, new dynamic[0]);
+                name, revision, savecount, tileDepth, tileHeight, tileWidth, type, width, actors.Select(i => i.GetActorInstance()).ToArray(), atlasMembers, layers.Select(i => i.GetLayer()).ToArray(), new dynamic[0], new dynamic[0], snippets.Select(i => i.GetBehaviorInstance()).ToArray(),terrain.Select(i => i.GetWireframe()).ToArray(), new dynamic[0]);
         }
     }
 }

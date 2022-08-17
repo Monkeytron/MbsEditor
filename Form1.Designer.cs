@@ -29,16 +29,20 @@ namespace MbsEdit
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.openMbs = new System.Windows.Forms.OpenFileDialog();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.SaveFile = new System.Windows.Forms.Button();
             this.StencylVersion = new System.Windows.Forms.ComboBox();
             this.MbsVersion = new System.Windows.Forms.ComboBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.SaveFile = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.WireframeDrawPanel = new System.Windows.Forms.Panel();
             this.saveMbs = new System.Windows.Forms.SaveFileDialog();
+            this.RefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -60,9 +64,9 @@ namespace MbsEdit
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(133, 3);
+            this.button1.Location = new System.Drawing.Point(187, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(76, 28);
+            this.button1.Size = new System.Drawing.Size(111, 28);
             this.button1.TabIndex = 1;
             this.button1.Text = "Open file";
             this.button1.UseVisualStyleBackColor = true;
@@ -71,16 +75,19 @@ namespace MbsEdit
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 5;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.73862F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.9898F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.13776F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.31633F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.22959F));
-            this.tableLayoutPanel1.Controls.Add(this.button1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.SaveFile, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.StencylVersion, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.MbsVersion, 4, 0);
+            this.tableLayoutPanel1.ColumnCount = 6;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.64989F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.94333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.98415F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.76441F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.65267F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.00555F));
+            this.tableLayoutPanel1.Controls.Add(this.StencylVersion, 4, 0);
+            this.tableLayoutPanel1.Controls.Add(this.MbsVersion, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.SaveFile, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button1, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button3, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -89,16 +96,6 @@ namespace MbsEdit
             this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 34);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // SaveFile
-            // 
-            this.SaveFile.Location = new System.Drawing.Point(226, 3);
-            this.SaveFile.Name = "SaveFile";
-            this.SaveFile.Size = new System.Drawing.Size(73, 28);
-            this.SaveFile.TabIndex = 2;
-            this.SaveFile.Text = "Save file";
-            this.SaveFile.UseVisualStyleBackColor = true;
-            this.SaveFile.Click += new System.EventHandler(this.SaveFile_Click);
-            // 
             // StencylVersion
             // 
             this.StencylVersion.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
@@ -106,9 +103,9 @@ namespace MbsEdit
             this.StencylVersion.Items.AddRange(new object[] {
             "Newest stencyl version",
             "Dadish/Dadish2/Catbird version"});
-            this.StencylVersion.Location = new System.Drawing.Point(328, 3);
+            this.StencylVersion.Location = new System.Drawing.Point(396, 3);
             this.StencylVersion.Name = "StencylVersion";
-            this.StencylVersion.Size = new System.Drawing.Size(215, 23);
+            this.StencylVersion.Size = new System.Drawing.Size(179, 23);
             this.StencylVersion.TabIndex = 3;
             // 
             // MbsVersion
@@ -117,10 +114,40 @@ namespace MbsEdit
             this.MbsVersion.Items.AddRange(new object[] {
             "Mbs v2",
             "Mbs v1"});
-            this.MbsVersion.Location = new System.Drawing.Point(549, 3);
+            this.MbsVersion.Location = new System.Drawing.Point(581, 3);
             this.MbsVersion.Name = "MbsVersion";
-            this.MbsVersion.Size = new System.Drawing.Size(232, 23);
+            this.MbsVersion.Size = new System.Drawing.Size(200, 23);
             this.MbsVersion.TabIndex = 4;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(86, 3);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(95, 28);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "Order actors";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // SaveFile
+            // 
+            this.SaveFile.Location = new System.Drawing.Point(304, 3);
+            this.SaveFile.Name = "SaveFile";
+            this.SaveFile.Size = new System.Drawing.Size(86, 28);
+            this.SaveFile.TabIndex = 2;
+            this.SaveFile.Text = "Save file";
+            this.SaveFile.UseVisualStyleBackColor = true;
+            this.SaveFile.Click += new System.EventHandler(this.SaveFile_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(3, 3);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(77, 28);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Refresh";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -153,6 +180,11 @@ namespace MbsEdit
             // 
             this.saveMbs.Filter = "Scene file|scene-*.mbs|Other mbs file|*.mbs";
             // 
+            // RefreshTimer
+            // 
+            this.RefreshTimer.Enabled = true;
+            this.RefreshTimer.Tick += new System.EventHandler(this.RefreshTimer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -162,7 +194,7 @@ namespace MbsEdit
             this.Controls.Add(this.tableLayoutPanel1);
             this.DoubleBuffered = true;
             this.Name = "Form1";
-            this.Text = "Mbs Editor";
+            this.Text = "Mbs Editor V 1.4.2.0";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -181,6 +213,9 @@ namespace MbsEdit
         private System.Windows.Forms.SaveFileDialog saveMbs;
         private System.Windows.Forms.ComboBox StencylVersion;
         private System.Windows.Forms.ComboBox MbsVersion;
+        private System.Windows.Forms.Timer RefreshTimer;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
     }
 }
 

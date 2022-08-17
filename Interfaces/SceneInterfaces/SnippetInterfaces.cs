@@ -25,6 +25,13 @@ namespace MbsEdit.Interfaces.SceneInterfaces
         [DisplayName("Type")]
         public string type { get; set; }
 
+        [DisplayName("Type")]
+        public string mapType { get; }
+
+        [DisplayName("Type")]
+
+        public string listType { get; }
+
         public AttributeInterface(StencylAttribute sa)
         {
             id = sa.ID;
@@ -66,13 +73,21 @@ namespace MbsEdit.Interfaces.SceneInterfaces
                 listValue = new DynamicList();
                 mapValue = new DynamicMap();
             }
+
+            listType = "list";
+            mapType = "map";
         }
 
         public AttributeInterface()
         {
+            stringValue = "";
+            type = "";
             valueType = DynamicTypeConverter.dynamicTypes[(int)DynamicTypes.Null];
             listValue = new DynamicList();
             mapValue = new DynamicMap();
+
+            listType = "list";
+            mapType = "map";
         }
 
         // Implementation of ICustomTypeDescriptor:
@@ -87,8 +102,16 @@ namespace MbsEdit.Interfaces.SceneInterfaces
                 switch (p.Name)
                 {
                     case "id":
-                    case "type":
                         pds.Add(p);
+                        break;
+                    case "listType":
+                        if (valueType == DynamicTypeConverter.dynamicTypes[(int)DynamicTypes.List]) pds.Add(p);
+                        break;
+                    case "mapType":
+                        if (valueType == DynamicTypeConverter.dynamicTypes[(int)DynamicTypes.Map]) pds.Add(p);
+                        break;
+                    case "type":
+                        if (valueType != DynamicTypeConverter.dynamicTypes[(int)DynamicTypes.List] && valueType != DynamicTypeConverter.dynamicTypes[(int)DynamicTypes.Map]) pds.Add(p);
                         break;
                 }
             }
@@ -97,127 +120,52 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
         public override string ToString()
         {
-            return $"Attribute {id} : {GetValue().ToString()}";
+            return $"Attribute {id} : {GetValue()}";
         }
 
         public StencylAttribute GetStencylAttribute()
         {
-            return new StencylAttribute(id, type, GetMbsFriendlyDynamValue());
+            string thisType = type;
+            if (valueType == DynamicTypeConverter.dynamicTypes[(int)DynamicTypes.List]) thisType = listType;
+            if (valueType == DynamicTypeConverter.dynamicTypes[(int)DynamicTypes.Map]) thisType = mapType;
+            try
+            {
+                return new StencylAttribute(id, thisType, GetMbsFriendlyDynamValue());
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message + $" in attribute {id}");
+            }
         }
     }
 
 
     [TypeConverter(typeof(NiceObjectConverter))]
-    public class Snippet : CollectionBase, ICustomTypeDescriptor
+    public class Snippet
     {
-        [DisplayName("\tEnabled")]
+        [DisplayName("Enabled")]
         public bool enabled { get; set; }
 
-        [DisplayName("\tID")]
+        [DisplayName("ID")]
         public int id { get; set; }
 
-        [DisplayName("\tNo. of Attributes")]
-        public int count { get { return Count; } }
+
+        [DisplayName("Attributes")]
+        public AttributeInterface[] attributes { get; set; }
 
         public Snippet(BehaviorInstance behavior)
         {
-            foreach (StencylAttribute sa in behavior.properties)
-            {
-                Add(new AttributeInterface(sa));
-            }
+            attributes = behavior.properties.Select(i => new AttributeInterface(i)).ToArray();
             enabled = behavior.enabled;
             id = behavior.id;
         }
 
         public Snippet()
         {
-            enabled = false;
+            enabled = true;
             id = -1;
+            attributes = new AttributeInterface[0];
         }
-
-        public void Add(AttributeInterface ai)
-        {
-            this.List.Add(ai);
-        }
-        public void Remove(AttributeInterface ai)
-        {
-            this.List.Remove(ai);
-        }
-        public AttributeInterface this[int index]
-        {
-            get
-            {
-                return (AttributeInterface)this.List[index];
-            }
-        }
-
-        public string GetClassName()
-        {
-            return TypeDescriptor.GetClassName(this, true);
-        }
-        public AttributeCollection GetAttributes()
-        {
-            return TypeDescriptor.GetAttributes(this, true);
-        }
-        public string GetComponentName()
-        {
-            return TypeDescriptor.GetComponentName(this, true);
-        }
-        public TypeConverter GetConverter()
-        {
-            return TypeDescriptor.GetConverter(this, true);
-        }
-        public EventDescriptor GetDefaultEvent()
-        {
-            return TypeDescriptor.GetDefaultEvent(this, true);
-        }
-        public PropertyDescriptor GetDefaultProperty()
-        {
-            return TypeDescriptor.GetDefaultProperty(this, true);
-        }
-        public object GetEditor(Type editorBaseType)
-        {
-            return TypeDescriptor.GetEditor(this, editorBaseType, true);
-        }
-        public EventDescriptorCollection GetEvents(Attribute[] attributes)
-        {
-            return TypeDescriptor.GetEvents(this, attributes, true);
-        }
-        public EventDescriptorCollection GetEvents()
-        {
-            return TypeDescriptor.GetEvents(this, true);
-        }
-        public object GetPropertyOwner(PropertyDescriptor pd)
-        {
-            return this;
-        }
-
-        public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
-        {
-            return GetProperties();
-        }
-
-        public PropertyDescriptorCollection GetProperties()
-        {
-            PropertyDescriptorCollection thispds = TypeDescriptor.GetProperties(this, true);
-            PropertyDescriptorCollection pds = new PropertyDescriptorCollection(null);
-
-            foreach(PropertyDescriptor pd in thispds)
-            {
-                if(pd.Name == "id"||pd.Name == "enabled"||pd.Name == "count")pds.Add(pd);
-            }
-
-            for (int i = 0; i < this.List.Count; i++)
-            {
-                SnippetPropertyDescriptor pd = new SnippetPropertyDescriptor(this, i);
-                pds.Add(pd);
-            }
-
-
-
-            return pds;
-        }
-
         public override string ToString()
         {
             return $"Snippet {id}";
@@ -225,77 +173,15 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
         public BehaviorInstance GetBehaviorInstance()
         {
-            StencylAttribute[] atts = new StencylAttribute[Count];
-            for(int i = 0; i < count; i++)
+            try
             {
-                atts[i] = this[i].GetStencylAttribute();
+                return new BehaviorInstance(enabled, id, attributes.Select(i => i.GetStencylAttribute()).ToArray());
             }
-
-            return new BehaviorInstance(enabled, id, atts);
+            catch(Exception e)
+            {
+                throw new Exception(e.Message + $" in snippet {id}");
+            }
         }
     }
 
-    public class SnippetPropertyDescriptor : PropertyDescriptor
-    {
-        private Snippet collection = null;
-        private int index = -1;
-
-        public SnippetPropertyDescriptor(Snippet coll, int idx) : base("Attribute #" + idx.ToString(), null)
-        {
-            collection = coll;
-            index = idx;
-        }
-
-        public override AttributeCollection Attributes
-        {
-            get
-            {
-                return new AttributeCollection();
-            }
-        }
-        public override bool CanResetValue(object component)
-        {
-            return true;
-        }
-        public override Type ComponentType
-        {
-            get
-            {
-                return this.collection.GetType();
-            }
-        }
-        public override string DisplayName
-        {
-            get
-            {
-                return "Attribute #" + index.ToString();
-            }
-        }
-
-        public override object GetValue(object component)
-        {
-            return this.collection[index];
-        }
-        public override bool IsReadOnly
-        {
-            get { return true; }
-        }
-        public override string Name
-        {
-            get { return "#" + index.ToString(); }
-        }
-        public override Type PropertyType
-        {
-            get { return this.collection[index].GetType(); }
-        }
-        public override void ResetValue(object component) { }
-        public override bool ShouldSerializeValue(object component)
-        {
-            return true;
-        }
-        public override void SetValue(object component, object value)
-        {
-            // this.collection[index] = value;
-        }
-    }
 }

@@ -64,6 +64,18 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
         public ActorInterface()
         {
+            angle = 0;
+            aid = 0;
+            customized = false;
+            groupID = 0;
+            id = 0;
+            name = "Not specified";
+            scaleX = 1;
+            scaleY = 1;
+            x = 0;
+            y = 0;
+            z = 0;
+            orderInLayer = -1;
             snippets = new Snippet[0];
         }
 
@@ -74,7 +86,14 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
         public ActorInstance GetActorInstance()
         {
-            return new ActorInstance(angle, aid, customized, groupID, id, name, scaleX, scaleY, x, y, z, orderInLayer, snippets.Select(i => i.GetBehaviorInstance()).ToArray());
+            try
+            {
+                return new ActorInstance(angle, aid, customized, groupID, id, name, scaleX, scaleY, x, y, z, orderInLayer, snippets.Select(i => i.GetBehaviorInstance()).ToArray());
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message + $" in actor {name}");
+            }
         }
     }
 }

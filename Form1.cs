@@ -124,7 +124,7 @@ namespace MbsEdit
 
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            Refresh();
+            WireframeDrawPanel.Refresh();
         }
 
         private void SaveFile_Click(object sender, EventArgs e)
@@ -155,17 +155,25 @@ namespace MbsEdit
                             break;
                     }
 
-                    MbsWriter w = new MbsWriter(saveVersion.Item2, false, saveVersion.Item1);
-                    MbsScene writeTo = new MbsScene(w);
+                    try
+                    {
+                        MbsWriter w = new MbsWriter(saveVersion.Item2, false, saveVersion.Item1);
+                        MbsScene writeTo = new MbsScene(w);
 
-                    writeTo.allocateNew();
-                    ((SceneInterface)propertyGrid1.SelectedObject).GetScene().WriteMbs(writeTo, false); //
+                        writeTo.allocateNew();
+                        ((SceneInterface)propertyGrid1.SelectedObject).GetScene().WriteMbs(writeTo, false); //
 
-                    w.setRoot(writeTo);
+                        w.setRoot(writeTo);
 
-                    w.prepareForOutput();
+                        w.prepareForOutput();
 
-                    w.writeToFile(saveMbs.FileName);
+                        w.writeToFile(saveMbs.FileName);
+                    }
+
+                    catch(Exception err)
+                    {
+                        MessageBox.Show(err.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             
@@ -193,6 +201,63 @@ namespace MbsEdit
             }
 
             return false;
+        }
+
+        private void RefreshTimer_Tick(object sender, EventArgs e)
+        {
+            if (GlobalData.callRefreshEvent())
+            {
+                propertyGrid1.Refresh();
+                GlobalData.propertyRefreshFlag = false;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if(propertyGrid1.SelectedObject is SceneInterface)
+            {
+                Dictionary<int, int> maxima = new Dictionary<int, int>();
+
+                ActorInterface[] actors = ((SceneInterface)propertyGrid1.SelectedObject).actors;
+
+                actors = actors.OrderBy(i => i.z).ThenBy(i => i.orderInLayer).ToArray();
+
+                foreach(ActorInterface a in actors)
+                {
+                    if (maxima.ContainsKey(a.z)) a.orderInLayer = maxima[a.z]++;
+                    else
+                    {
+                        maxima.Add(a.z, 0);
+                        a.orderInLayer = maxima[a.z]++;
+                    }
+                }
+
+                ((SceneInterface)propertyGrid1.SelectedObject).actors = actors;
+
+                propertyGrid1.Refresh();
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            propertyGrid1.Refresh();
+            WireframeDrawPanel.Refresh();
+            Refresh();
+        }
+    }
+
+    public static class GlobalData
+    {
+        public static bool propertyRefreshFlag = false;
+        public static SceneInterface prevScene;
+
+        public static event EventHandler refreshEvent;
+
+        public static bool callRefreshEvent()
+        {
+            if (propertyRefreshFlag) return true;
+            if(refreshEvent is not null) refreshEvent(new object(), new EventArgs()); ;
+            return propertyRefreshFlag;
         }
     }
 }
