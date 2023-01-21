@@ -116,6 +116,7 @@ namespace MbsEdit.Interfaces.SceneInterfaces
         {
             return TypeDescriptor.GetClassName(this, true);
         }
+
         public AttributeCollection GetAttributes()
         {
             return TypeDescriptor.GetAttributes(this, true);

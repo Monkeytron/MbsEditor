@@ -8,11 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using haxe_mbs_translate.src.mbs.core;
 using haxe_mbs_translate.src.mbs.io;
 using haxe_mbs_translate.src.stencyl.behavior;
 using haxe_mbs_translate.src.stencyl.io.mbs;
 using haxe_mbs_translate.src.stencyl.io.mbs.scene;
+using haxe_mbs_translate.src.stencyl.io.mbs.snippet;
 using haxe_mbs_translate.src.stencyl.models;
 using haxe_mbs_translate.src.stencyl.models.scene;
 
@@ -31,37 +32,69 @@ namespace MbsEdit
         {
             if(openMbs.ShowDialog() == DialogResult.OK)
             {
-                propertyGrid1.PropertySort = PropertySort.Categorized;
-
-                MbsReader reader = new MbsReader(MbsVersionControl.ALLCURRENTVERSIONS, false, true);
-
-                (int,int) info = reader.readData(File.ReadAllBytes(openMbs.FileName));
-
-                switch (info.Item1)
+               // try
                 {
-                    case 1:
-                        MbsVersion.SelectedIndex = 1;
-                        break;
-                    case 2:
-                        MbsVersion.SelectedIndex = 0;
-                        break;
+
+
+                    MbsReader reader = new MbsReader(MbsVersionControl.ALLCURRENTVERSIONS, false, true);
+
+                    (int, int) info = reader.readData(File.ReadAllBytes(openMbs.FileName));
+
+                    dynamic r = reader.getRoot();
+                    if (r is MbsScene)
+                    {
+                        switch (info.Item1)
+                        {
+                            case 1:
+                                MbsVersion.SelectedIndex = 1;
+                                break;
+                            case 2:
+                                MbsVersion.SelectedIndex = 0;
+                                break;
+                        }
+                        switch (info.Item2)
+                        {
+                            case -2033963926:
+                                StencylVersion.SelectedIndex = 1;
+                                break;
+                            case -1349349184:
+                                StencylVersion.SelectedIndex = 0;
+                                break;
+                        }
+                        propertyGrid1.PropertySort = PropertySort.Categorized;
+                        propertyGrid1.SelectedObject = new SceneInterface(Scene.FromMbs(r));
+
+                        propertyGrid1.CollapseAllGridItems();
+                    }
+
+                    else if (r is MbsListBase)
+                    {
+                        switch (((MbsListBase)r).type.getName())
+                        {
+                            case "MbsSnippetDef":
+                                MbsList<MbsObject> snips = (MbsList<MbsObject>)r;
+                                GlobalData.behaviors = new Dictionary<int, Behavior>();
+                                for(int i = 0; i < snips.length(); i++)
+                                {
+                                    Behavior b = Behavior.FromMbs((MbsSnippetDef)snips.getNextObject());
+                                    GlobalData.behaviors.Add(b.ID, b);
+                                }
+                                break;
+                            default:
+                                throw new Exception($"Cannot currently open an mbs file of type MbsList<{((MbsListBase)r).type}>");
+                        }
+                    }
+
+                    else
+                    {
+                        throw new Exception($"Cannot open an mbs file of type {r.GetType()}");
+                    }
+                    Refresh();
                 }
-                switch (info.Item2)
+                //catch(Exception err)
                 {
-                    case -2033963926:
-                        StencylVersion.SelectedIndex = 1;
-                        break;
-                    case -1349349184:
-                        StencylVersion.SelectedIndex = 0;
-                        break;
+                   // MessageBox.Show($"An error occured when trying to open the file: \n\t{err}.", "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-
-                propertyGrid1.SelectedObject = new SceneInterface(Scene.FromMbs(reader.getRoot()));
-
-                propertyGrid1.CollapseAllGridItems();
-
-                Refresh();
             }
         }
 
@@ -240,9 +273,15 @@ namespace MbsEdit
 
         private void button3_Click(object sender, EventArgs e)
         {
+            GlobalData.callRefreshEvent();
             propertyGrid1.Refresh();
             WireframeDrawPanel.Refresh();
             Refresh();
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 
@@ -259,5 +298,7 @@ namespace MbsEdit
             if(refreshEvent is not null) refreshEvent(new object(), new EventArgs()); ;
             return propertyRefreshFlag;
         }
+
+        public static Dictionary<int, Behavior> behaviors = new Dictionary<int, Behavior>();
     }
 }

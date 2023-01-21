@@ -18,6 +18,12 @@ namespace MbsEdit.Interfaces.SceneInterfaces
     [TypeConverter(typeof(NiceObjectConverter))]
     public class AttributeInterface : DynamicInterface
     {
+        [Browsable(false)]
+        private int snipNum;
+        public void SetSnipNum(int num)
+        {
+            snipNum = num;
+        }
 
         [DisplayName("ID")]
         public int id { get; set; }
@@ -32,8 +38,9 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
         public string listType { get; }
 
-        public AttributeInterface(StencylAttribute sa)
+        public AttributeInterface(StencylAttribute sa, int snipnum = -1)
         {
+            this.snipNum = snipnum;
             id = sa.ID;
             type = sa.type;
 
@@ -120,6 +127,14 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
         public override string ToString()
         {
+            try
+            {
+                return $"{GlobalData.behaviors[snipNum].attributes.First(i => i.id == id).fullname}: {GetValue()}";
+            }
+            catch
+            {
+                int x = 0;
+            }
             return $"Attribute {id} : {GetValue()}";
         }
 
@@ -155,9 +170,11 @@ namespace MbsEdit.Interfaces.SceneInterfaces
 
         public Snippet(BehaviorInstance behavior)
         {
-            attributes = behavior.properties.Select(i => new AttributeInterface(i)).ToArray();
             enabled = behavior.enabled;
             id = behavior.id;
+            attributes = behavior.properties.Select(i => new AttributeInterface(i,id)).ToArray();
+
+            GlobalData.refreshEvent += OnRefresh;
         }
 
         public Snippet()
@@ -165,9 +182,19 @@ namespace MbsEdit.Interfaces.SceneInterfaces
             enabled = true;
             id = -1;
             attributes = new AttributeInterface[0];
+
+            GlobalData.refreshEvent += OnRefresh;
         }
         public override string ToString()
         {
+            try
+            {
+                return GlobalData.behaviors[id].name;
+            }
+            catch
+            {
+
+            }
             return $"Snippet {id}";
         }
 
@@ -182,6 +209,13 @@ namespace MbsEdit.Interfaces.SceneInterfaces
                 throw new Exception(e.Message + $" in snippet {id}");
             }
         }
-    }
 
+        public void OnRefresh(object sender, EventArgs e)
+        {
+            foreach(AttributeInterface ai in attributes)
+            {
+                ai.SetSnipNum(id);
+            }
+        }
+    }
 }
