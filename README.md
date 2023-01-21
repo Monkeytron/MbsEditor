@@ -10,6 +10,9 @@ Building on the code in [mbs-io](https://github.com/Monkeytron/mbs-io) this prog
 - All values in the file can be edited easily through this interface.
 - Once editing is complete, you can save your changes to a new mbs file and run it in the game!
 
+- For easier editing, you can also open a behaviors file (behaviors.mbs, using the same button as to open a scene file) to get the 'true' names of each snippet and attribute.
+- Doing this will not close the current scene file (if one is loaded) or change the data stored in it, but it will make editing easier as the program will display "character logic - jump speed" instead of "snippet 34 - attribute 22" for example.
+
 ### Installation
 
 To install: download the code, go to bin/publish and double click on setup.exe.
