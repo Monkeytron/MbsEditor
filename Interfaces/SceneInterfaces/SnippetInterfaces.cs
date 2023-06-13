@@ -133,7 +133,6 @@ namespace MbsEdit.Interfaces.SceneInterfaces
             }
             catch
             {
-                int x = 0;
             }
             return $"Attribute {id} : {GetValue()}";
         }

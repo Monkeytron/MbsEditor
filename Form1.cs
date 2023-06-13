@@ -30,9 +30,9 @@ namespace MbsEdit
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(openMbs.ShowDialog() == DialogResult.OK)
+            if (openMbs.ShowDialog() == DialogResult.OK)
             {
-               // try
+                // try
                 {
 
 
@@ -61,6 +61,14 @@ namespace MbsEdit
                                 StencylVersion.SelectedIndex = 0;
                                 break;
                         }
+                        Scene sc = Scene.FromMbs(r);
+                        {
+                            if (Text.Contains(':'))
+                            {
+                                Text = Text.Split(':')[0] + $": {sc.name}";
+                            }
+                            else Text = Text + $": {sc.name}";
+                        }
                         propertyGrid1.PropertySort = PropertySort.Categorized;
                         propertyGrid1.SelectedObject = new SceneInterface(Scene.FromMbs(r));
 
@@ -74,7 +82,7 @@ namespace MbsEdit
                             case "MbsSnippetDef":
                                 MbsList<MbsObject> snips = (MbsList<MbsObject>)r;
                                 GlobalData.behaviors = new Dictionary<int, Behavior>();
-                                for(int i = 0; i < snips.length(); i++)
+                                for (int i = 0; i < snips.length(); i++)
                                 {
                                     Behavior b = Behavior.FromMbs((MbsSnippetDef)snips.getNextObject());
                                     GlobalData.behaviors.Add(b.ID, b);
@@ -83,6 +91,7 @@ namespace MbsEdit
                             default:
                                 throw new Exception($"Cannot currently open an mbs file of type MbsList<{((MbsListBase)r).type}>");
                         }
+                        propertyGrid1.Refresh();
                     }
 
                     else
@@ -93,14 +102,14 @@ namespace MbsEdit
                 }
                 //catch(Exception err)
                 {
-                   // MessageBox.Show($"An error occured when trying to open the file: \n\t{err}.", "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // MessageBox.Show($"An error occured when trying to open the file: \n\t{err}.", "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         private void WireframeDisplay_Paint(object sender, PaintEventArgs e)
         {
-            if(propertyGrid1.SelectedObject is SceneInterface)
+            if (propertyGrid1.SelectedObject is SceneInterface)
             {
                 SceneInterface s = (SceneInterface)propertyGrid1.SelectedObject;
 
@@ -113,16 +122,16 @@ namespace MbsEdit
 
                 foreach (WireframeInterface w in s.terrain)
                 {
-                    PointF[] newPoints = w.corners.Select(i => new PointF((i.x+w.position.x)*(WireframeDrawPanel.Width-4)/s.width+2,(i.y+w.position.y)*(WireframeDrawPanel.Height-4)/s.height+2)).ToArray();
-                    if (isContainedIn(propertyGrid1.SelectedGridItem,w))
+                    PointF[] newPoints = w.corners.Select(i => new PointF((i.x + w.position.x) * (WireframeDrawPanel.Width - 4) / s.width + 2, (i.y + w.position.y) * (WireframeDrawPanel.Height - 4) / s.height + 2)).ToArray();
+                    if (isContainedIn(propertyGrid1.SelectedGridItem, w))
                     {
                         e.Graphics.DrawLines(selectP, newPoints);
                         e.Graphics.DrawLine(selectP, newPoints[0], newPoints.Last());
-                        for(int i = 0; i < w.corners.Length; i++)
+                        for (int i = 0; i < w.corners.Length; i++)
                         {
-                            if(isContainedIn(propertyGrid1.SelectedGridItem, w.corners[i]))
+                            if (isContainedIn(propertyGrid1.SelectedGridItem, w.corners[i]))
                             {
-                                e.Graphics.DrawEllipse(highlightP, newPoints[i].X-2, newPoints[i].Y-2, 4, 4);
+                                e.Graphics.DrawEllipse(highlightP, newPoints[i].X - 2, newPoints[i].Y - 2, 4, 4);
                             }
                         }
                     }
@@ -133,7 +142,7 @@ namespace MbsEdit
                     }
                 }
 
-                foreach(ActorInterface a in s.actors)
+                foreach (ActorInterface a in s.actors)
                 {
                     if (isContainedIn(propertyGrid1.SelectedGridItem, a))
                     {
@@ -147,7 +156,7 @@ namespace MbsEdit
 
                 WireframeDrawPanel.ResumeLayout();
             }
-            
+
         }
 
         private void WireframeDrawPanel_Resize(object sender, EventArgs e)
@@ -162,7 +171,7 @@ namespace MbsEdit
 
         private void SaveFile_Click(object sender, EventArgs e)
         {
-            
+
             if (saveMbs.ShowDialog() == DialogResult.OK)
             {
                 if (propertyGrid1.SelectedObject is SceneInterface)
@@ -203,13 +212,13 @@ namespace MbsEdit
                         w.writeToFile(saveMbs.FileName);
                     }
 
-                    catch(Exception err)
+                    catch (Exception err)
                     {
                         MessageBox.Show(err.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
-            
+
         }
 
         private void propertyGrid1_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
@@ -247,7 +256,7 @@ namespace MbsEdit
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(propertyGrid1.SelectedObject is SceneInterface)
+            if (propertyGrid1.SelectedObject is SceneInterface)
             {
                 Dictionary<int, int> maxima = new Dictionary<int, int>();
 
@@ -255,7 +264,7 @@ namespace MbsEdit
 
                 actors = actors.OrderBy(i => i.z).ThenBy(i => i.orderInLayer).ToArray();
 
-                foreach(ActorInterface a in actors)
+                foreach (ActorInterface a in actors)
                 {
                     if (maxima.ContainsKey(a.z)) a.orderInLayer = maxima[a.z]++;
                     else
@@ -283,6 +292,11 @@ namespace MbsEdit
         {
 
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public static class GlobalData
@@ -295,7 +309,7 @@ namespace MbsEdit
         public static bool callRefreshEvent()
         {
             if (propertyRefreshFlag) return true;
-            if(refreshEvent is not null) refreshEvent(new object(), new EventArgs()); ;
+            if (refreshEvent is not null) refreshEvent(new object(), new EventArgs()); ;
             return propertyRefreshFlag;
         }
 

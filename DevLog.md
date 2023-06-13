@@ -1,3 +1,8 @@
+### V 1.5.1.0
+- Fixed an issue with null references preventing some files from saving.
+- Made the behavior file loading *actually* work - now it instantly updates the names of all behaviors.
+- Minor visual improvements.
+
 ### V 1.5.0.0
 - Added behavior.mbs reading functionality: by opening a scene file as normal and then opening a behavior file using the same button, it loads the names of all behaviors and attributes to make everything easier.
 - That's it for now I guess unless I broke something :)

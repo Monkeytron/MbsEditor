@@ -29,177 +29,174 @@ namespace MbsEdit
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.openMbs = new System.Windows.Forms.OpenFileDialog();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.button1 = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button2 = new System.Windows.Forms.Button();
-            this.SaveFile = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.StencylVersion = new System.Windows.Forms.ComboBox();
-            this.MbsVersion = new System.Windows.Forms.ComboBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.WireframeDrawPanel = new System.Windows.Forms.Panel();
-            this.saveMbs = new System.Windows.Forms.SaveFileDialog();
-            this.RefreshTimer = new System.Windows.Forms.Timer(this.components);
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            openMbs = new System.Windows.Forms.OpenFileDialog();
+            propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            button1 = new System.Windows.Forms.Button();
+            tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            button2 = new System.Windows.Forms.Button();
+            SaveFile = new System.Windows.Forms.Button();
+            button3 = new System.Windows.Forms.Button();
+            StencylVersion = new System.Windows.Forms.ComboBox();
+            MbsVersion = new System.Windows.Forms.ComboBox();
+            tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            WireframeDrawPanel = new System.Windows.Forms.Panel();
+            saveMbs = new System.Windows.Forms.SaveFileDialog();
+            RefreshTimer = new System.Windows.Forms.Timer(components);
+            tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            SuspendLayout();
             // 
             // openMbs
             // 
-            this.openMbs.FileName = "mbs";
-            this.openMbs.Filter = "mbs scene files|scene-*.mbs|mbs behavior files|behaviors.mbs";
+            openMbs.FileName = "mbs";
+            openMbs.Filter = "mbs scene files|scene-*.mbs|mbs behavior files|behaviors.mbs";
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.Location = new System.Drawing.Point(5, 5);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(384, 367);
-            this.propertyGrid1.TabIndex = 0;
-            this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
-            this.propertyGrid1.SelectedGridItemChanged += new System.Windows.Forms.SelectedGridItemChangedEventHandler(this.propertyGrid1_SelectedGridItemChanged);
+            propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            propertyGrid1.Location = new System.Drawing.Point(5, 5);
+            propertyGrid1.Name = "propertyGrid1";
+            propertyGrid1.Size = new System.Drawing.Size(384, 367);
+            propertyGrid1.TabIndex = 0;
+            propertyGrid1.PropertyValueChanged += propertyGrid1_PropertyValueChanged;
+            propertyGrid1.SelectedGridItemChanged += propertyGrid1_SelectedGridItemChanged;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(182, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(89, 28);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Open file";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Location = new System.Drawing.Point(182, 3);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(89, 28);
+            button1.TabIndex = 1;
+            button1.Text = "Open file";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 6;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.056123F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.03061F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.2449F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.30612F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.06633F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.80612F));
-            this.tableLayoutPanel1.Controls.Add(this.button2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.SaveFile, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button1, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button3, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.StencylVersion, 4, 0);
-            this.tableLayoutPanel1.Controls.Add(this.MbsVersion, 5, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 34);
-            this.tableLayoutPanel1.TabIndex = 2;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+            tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            tableLayoutPanel1.ColumnCount = 6;
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.056123F));
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.03061F));
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.2449F));
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.30612F));
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.06633F));
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.80612F));
+            tableLayoutPanel1.Controls.Add(button2, 1, 0);
+            tableLayoutPanel1.Controls.Add(SaveFile, 3, 0);
+            tableLayoutPanel1.Controls.Add(button1, 2, 0);
+            tableLayoutPanel1.Controls.Add(button3, 0, 0);
+            tableLayoutPanel1.Controls.Add(MbsVersion, 5, 0);
+            tableLayoutPanel1.Controls.Add(StencylVersion, 4, 0);
+            tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new System.Drawing.Size(784, 34);
+            tableLayoutPanel1.TabIndex = 2;
+            tableLayoutPanel1.Paint += tableLayoutPanel1_Paint;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(73, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(103, 28);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Order actors";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            button2.Location = new System.Drawing.Point(73, 3);
+            button2.Name = "button2";
+            button2.Size = new System.Drawing.Size(103, 28);
+            button2.TabIndex = 5;
+            button2.Text = "Order actors";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // SaveFile
             // 
-            this.SaveFile.Location = new System.Drawing.Point(277, 3);
-            this.SaveFile.Name = "SaveFile";
-            this.SaveFile.Size = new System.Drawing.Size(103, 28);
-            this.SaveFile.TabIndex = 2;
-            this.SaveFile.Text = "Save file";
-            this.SaveFile.UseVisualStyleBackColor = true;
-            this.SaveFile.Click += new System.EventHandler(this.SaveFile_Click);
+            SaveFile.Location = new System.Drawing.Point(277, 3);
+            SaveFile.Name = "SaveFile";
+            SaveFile.Size = new System.Drawing.Size(103, 28);
+            SaveFile.TabIndex = 2;
+            SaveFile.Text = "Save file";
+            SaveFile.UseVisualStyleBackColor = true;
+            SaveFile.Click += SaveFile_Click;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(3, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(64, 28);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Refresh";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            button3.Location = new System.Drawing.Point(3, 3);
+            button3.Name = "button3";
+            button3.Size = new System.Drawing.Size(64, 28);
+            button3.TabIndex = 6;
+            button3.Text = "Refresh";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // StencylVersion
             // 
-            this.StencylVersion.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
-            this.StencylVersion.FormattingEnabled = true;
-            this.StencylVersion.Items.AddRange(new object[] {
-            "Newest stencyl version",
-            "Dadish/Dadish2/Catbird version"});
-            this.StencylVersion.Location = new System.Drawing.Point(396, 3);
-            this.StencylVersion.Name = "StencylVersion";
-            this.StencylVersion.Size = new System.Drawing.Size(166, 23);
-            this.StencylVersion.TabIndex = 3;
+            StencylVersion.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
+            StencylVersion.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            StencylVersion.FormattingEnabled = true;
+            StencylVersion.Items.AddRange(new object[] { "Newest stencyl version", "Dadish/Dadish2/Catbird version" });
+            StencylVersion.Location = new System.Drawing.Point(396, 3);
+            StencylVersion.Name = "StencylVersion";
+            StencylVersion.Size = new System.Drawing.Size(166, 23);
+            StencylVersion.TabIndex = 3;
             // 
             // MbsVersion
             // 
-            this.MbsVersion.FormattingEnabled = true;
-            this.MbsVersion.Items.AddRange(new object[] {
-            "Mbs v2",
-            "Mbs v1"});
-            this.MbsVersion.Location = new System.Drawing.Point(568, 3);
-            this.MbsVersion.Name = "MbsVersion";
-            this.MbsVersion.Size = new System.Drawing.Size(213, 23);
-            this.MbsVersion.TabIndex = 4;
+            MbsVersion.FormattingEnabled = true;
+            MbsVersion.Items.AddRange(new object[] { "Mbs v2", "Mbs v1" });
+            MbsVersion.Location = new System.Drawing.Point(568, 3);
+            MbsVersion.Name = "MbsVersion";
+            MbsVersion.Size = new System.Drawing.Size(213, 23);
+            MbsVersion.TabIndex = 4;
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.propertyGrid1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.WireframeDrawPanel, 1, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 34);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(2);
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(784, 377);
-            this.tableLayoutPanel2.TabIndex = 3;
+            tableLayoutPanel2.ColumnCount = 2;
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            tableLayoutPanel2.Controls.Add(propertyGrid1, 0, 0);
+            tableLayoutPanel2.Controls.Add(WireframeDrawPanel, 1, 0);
+            tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel2.Location = new System.Drawing.Point(0, 34);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(2);
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            tableLayoutPanel2.Size = new System.Drawing.Size(784, 377);
+            tableLayoutPanel2.TabIndex = 3;
             // 
             // WireframeDrawPanel
             // 
-            this.WireframeDrawPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.WireframeDrawPanel.Location = new System.Drawing.Point(395, 5);
-            this.WireframeDrawPanel.Name = "WireframeDrawPanel";
-            this.WireframeDrawPanel.Padding = new System.Windows.Forms.Padding(2);
-            this.WireframeDrawPanel.Size = new System.Drawing.Size(384, 367);
-            this.WireframeDrawPanel.TabIndex = 1;
-            this.WireframeDrawPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.WireframeDisplay_Paint);
-            this.WireframeDrawPanel.Resize += new System.EventHandler(this.WireframeDrawPanel_Resize);
+            WireframeDrawPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            WireframeDrawPanel.Location = new System.Drawing.Point(395, 5);
+            WireframeDrawPanel.Name = "WireframeDrawPanel";
+            WireframeDrawPanel.Padding = new System.Windows.Forms.Padding(2);
+            WireframeDrawPanel.Size = new System.Drawing.Size(384, 367);
+            WireframeDrawPanel.TabIndex = 1;
+            WireframeDrawPanel.Paint += WireframeDisplay_Paint;
+            WireframeDrawPanel.Resize += WireframeDrawPanel_Resize;
             // 
             // saveMbs
             // 
-            this.saveMbs.Filter = "Scene file|scene-*.mbs|Other mbs file|*.mbs";
+            saveMbs.Filter = "Scene file|scene-*.mbs|Other mbs file|*.mbs";
             // 
             // RefreshTimer
             // 
-            this.RefreshTimer.Enabled = true;
-            this.RefreshTimer.Tick += new System.EventHandler(this.RefreshTimer_Tick);
+            RefreshTimer.Enabled = true;
+            RefreshTimer.Tick += RefreshTimer_Tick;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 411);
-            this.Controls.Add(this.tableLayoutPanel2);
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.DoubleBuffered = true;
-            this.Name = "Form1";
-            this.Text = "Mbs Editor V 1.5.0.0";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(784, 411);
+            Controls.Add(tableLayoutPanel2);
+            Controls.Add(tableLayoutPanel1);
+            DoubleBuffered = true;
+            Name = "Form1";
+            Text = "Mbs Editor V 1.5.1.0";
+            Load += Form1_Load;
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
