@@ -12,19 +12,20 @@ Building on the code in [mbs-io](https://github.com/Monkeytron/mbs-io) this prog
 
 - For easier editing, you can also open a behaviors file (behaviors.mbs, using the same button as to open a scene file) to get the 'true' names of each snippet and attribute.
 - Doing this will not close the current scene file (if one is loaded) or change the data stored in it, but it will make editing easier as the program will display "character logic - jump speed" instead of "snippet 34 - attribute 22" for example.
+ 
+- The program can have multiple scene files loaded and ready to select for editing - eg, you can load an entire assets/data folder and then choose the right scene in the editor.
 
 ### Installation
 
-To install: download the code, go to bin/publish and double click on setup.exe.
-Once installed the program should auto update every time you open it... If I programmed it right.
+To install: download the code from github, go to bin/publish and double click on setup.exe.
+Once installed the program should auto update every time you open it.
 Only windows compatible, unless you can run winforms on Linux...
 
 
 ### Possible future improvements
 
 - The tile map of the level (what the background and floor looks like etc) is not stored in an mbs file. Instead, it is kept in a .scn file: currently I cannot open those files, instead use [hpr's program scnedit](https://hpr.github.io/scnedit) to view these.
-- I'm not sure how intuitive the program is if you don't know mbs files, so I might make a set of video tutorials.
-- This version is very simple - it has little error checking and will probably crash occasionally. I will fix this soon.
+- Potential complete redesign, using something more modern than winforms, to make it actually look nice.
 
 
-To get in contact, DM me on discord: Monkeytron#9738
+To get in contact, DM me on discord: ben.thenerd
